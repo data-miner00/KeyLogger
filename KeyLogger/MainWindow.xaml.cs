@@ -30,8 +30,8 @@ namespace KeyLogger
         private User32.LowLevelHook _proc;
         private static IntPtr _hookID = IntPtr.Zero;
         private readonly FixedSizedQueue<string> queue = new(5);
-        private readonly Timer idleTimer = new(TimeSpan.FromMilliseconds(100));
-        private readonly int timerMax = 600;
+        private readonly Timer idleTimer = new(TimeSpan.FromMilliseconds(500));
+        private readonly int timerMax = 1000;
         private int timerCountdown;
         private bool isCleared = false;
 
@@ -59,9 +59,21 @@ namespace KeyLogger
         {
             if (nCode >= 0 && wParam == (IntPtr)0x0100) // WM_KEYDOWN message
             {
+                bool shiftPressed = false;
+				bool capsLockActive = false;
+
+				var shiftKeyState = User32.GetAsyncKeyState(Keys.ShiftKey);
+				if (FirstBitIsTurnedOn(shiftKeyState))
+					shiftPressed = true;
+
+				//We need to use GetKeyState to verify if CapsLock is "TOGGLED" 
+				//because GetAsyncKeyState only verifies if it is "PRESSED" at the moment
+				if (User32.GetKeyState(Keys.Capital) == 1)
+					capsLockActive = true;
+
                 int vkCode = Marshal.ReadInt32(lParam);
 
-                this.queue.Enqueue(((Keys)vkCode).ToString());
+                this.queue.Enqueue(new KeyPress((Keys)vkCode, shiftPressed, capsLockActive).ToString());
                 this.txtKeystroke.Text = string.Join(string.Empty, this.queue.GetAll);
                 this.isCleared = false;
 
@@ -109,8 +121,7 @@ namespace KeyLogger
         {
             if (timerCountdown > 0)
             {
-                timerCountdown -= 100;
-                Console.WriteLine("Timer countdown: " + timerCountdown / 1000 + " seconds remaining.");
+                timerCountdown -= 500;
             }
             else
             {
@@ -122,6 +133,12 @@ namespace KeyLogger
                 }
             }
         }
+
+        private static bool FirstBitIsTurnedOn(short value)
+		{
+			//0x8000 == 1000 0000 0000 0000			
+			return Convert.ToBoolean(value & 0x8000);
+		}
     }
 
     public class FixedSizedQueue<T>
