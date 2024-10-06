@@ -6,12 +6,11 @@
         xmlns:local="clr-namespace:KeyLogger"
         mc:Ignorable="d"
         Title="KeyLogger Screen Display" Height="300" Width="400" Loaded="Window_Loaded" Deactivated="Window_Deactivated">
-    <Grid Margin="0,0,0,9">
-        <Label x:Name="lblProcessId" Content="Id of the process" Margin="150,0,140,200"/>
-        <Rectangle HorizontalAlignment="Left" Height="44" Margin="10,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Red"/>
-        <Rectangle HorizontalAlignment="Left" Height="44" Margin="107,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Yellow"/>
-        <Rectangle HorizontalAlignment="Left" Height="44" Margin="205,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Blue"/>
-        <Rectangle HorizontalAlignment="Left" Height="44" Margin="303,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Green"/>
-        <TextBox x:Name="txtKeystroke" HorizontalAlignment="Center" Margin="0,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" Height="176" FontFamily="Bahnschrift" FontSize="48"/>
+    <Grid Margin="0,10,0,9">
+        <Rectangle x:Name="rctShift" HorizontalAlignment="Left" Height="44" Margin="10,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Red"/>
+        <Rectangle x:Name="rctCtrl" HorizontalAlignment="Left" Height="44" Margin="107,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Yellow"/>
+        <Rectangle x:Name="rctAlt" HorizontalAlignment="Left" Height="44" Margin="205,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Blue"/>
+        <Rectangle x:Name="rctWindows" HorizontalAlignment="Left" Height="44" Margin="303,231,0,0" Stroke="Black" VerticalAlignment="Top" Width="87" Fill="Green"/>
+        <TextBox x:Name="txtKeystroke" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="380" Height="176" FontFamily="Bahnschrift" FontSize="48"/>
     </Grid>
 </Window>
