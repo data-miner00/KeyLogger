@@ -35,6 +35,7 @@ namespace KeyLogger
         private bool isCleared = false;
         private bool isDisposed = false;
         private bool isShiftPressed = false;
+        private bool isCtrlPressed = false;
 
         public MainWindow()
         {
@@ -69,6 +70,13 @@ namespace KeyLogger
                     UpdateShiftUI();
                 }
 
+                var ctrlKeyState = User32.GetAsyncKeyState(Keys.ControlKey);
+                if (FirstBitIsTurnedOn(ctrlKeyState))
+                {
+                    isCtrlPressed = true;
+                    UpdateCtrlUI();
+                }
+
 				//We need to use GetKeyState to verify if CapsLock is "TOGGLED" 
 				//because GetAsyncKeyState only verifies if it is "PRESSED" at the moment
 				if (User32.GetKeyState(Keys.Capital) == 1)
@@ -93,6 +101,16 @@ namespace KeyLogger
                     {
                         isShiftPressed = false;
                         UpdateShiftUI();
+                    }
+                }
+
+                if (isCtrlPressed)
+                {
+                    var ctrlKeyState = User32.GetAsyncKeyState(Keys.ControlKey);
+                    if (!FirstBitIsTurnedOn(ctrlKeyState))
+                    {
+                        isCtrlPressed = false;
+                        UpdateCtrlUI();
                     }
                 }
             }
@@ -177,6 +195,35 @@ namespace KeyLogger
                     else
                     {
                         rctShift.Fill = new SolidColorBrush(FillColor.FromRgb(0, 255, 0));
+                    }
+                }));
+            }
+        }
+
+        public void UpdateCtrlUI()
+        {
+            if (rctCtrl.Dispatcher.Thread == Thread.CurrentThread)
+            {
+                if (isCtrlPressed)
+                {
+                    rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                }
+                else
+                {
+                    rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                }
+            }
+            else
+            {
+                rctCtrl.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (isCtrlPressed)
+                    {
+                        rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                    }
+                    else
+                    {
+                        rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                     }
                 }));
             }
