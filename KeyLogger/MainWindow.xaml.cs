@@ -34,6 +34,7 @@ namespace KeyLogger
         private readonly int timerMax = 1000;
         private int timerCountdown;
         private bool isCleared = false;
+        private bool isDisposed = false;
 
         public MainWindow()
         {
@@ -85,7 +86,11 @@ namespace KeyLogger
 
         public void Dispose()
         {
-            User32.UnhookWindowsHookEx(_hookID);
+            if (!isDisposed)
+            {
+                User32.UnhookWindowsHookEx(_hookID);
+                this.isDisposed = true;
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
