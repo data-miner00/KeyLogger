@@ -11,8 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System;
+using System.Threading.Tasks;
 
 using Keys = System.Windows.Forms.Keys;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Timers;
+using Thread = System.Threading.Thread;
 
 namespace KeyLogger
 {
@@ -23,12 +29,21 @@ namespace KeyLogger
     {
         private User32.LowLevelHook _proc;
         private static IntPtr _hookID = IntPtr.Zero;
+        private readonly FixedSizedQueue<string> queue = new(5);
+        private readonly Timer idleTimer = new(TimeSpan.FromMilliseconds(100));
+        private readonly int timerMax = 600;
+        private int timerCountdown;
+        private bool isCleared = false;
 
         public MainWindow()
         {
             this._proc = this.HookCallback;
             _hookID = SetHook(_proc);
+            idleTimer.Elapsed += OnTimedEvent;
+            timerCountdown = timerMax;
             InitializeComponent();
+            Task.Delay(1000).GetAwaiter().GetResult();
+            idleTimer.Start();
         }
 
         private static IntPtr SetHook(User32.LowLevelHook proc)
@@ -45,8 +60,12 @@ namespace KeyLogger
             if (nCode >= 0 && wParam == (IntPtr)0x0100) // WM_KEYDOWN message
             {
                 int vkCode = Marshal.ReadInt32(lParam);
-                Console.WriteLine((Keys)vkCode);
-                this.textBlock1.Text += ((Keys)vkCode).ToString();
+
+                this.queue.Enqueue(((Keys)vkCode).ToString());
+                this.txtKeystroke.Text = string.Join(string.Empty, this.queue.GetAll);
+                this.isCleared = false;
+
+                this.timerCountdown = timerMax;
             }
 
             return User32.CallNextHookEx(_hookID, nCode, wParam, lParam);
@@ -69,6 +88,68 @@ namespace KeyLogger
         private void Window_Deactivated(object sender, EventArgs e)
         {
             this.Topmost = true;
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (txtKeystroke.Dispatcher.Thread == Thread.CurrentThread)
+            {
+                this.TimerLogic();
+            }
+            else
+            {
+                txtKeystroke.Dispatcher.Invoke(new Action(() =>
+                {
+                    this.TimerLogic();
+                }));
+            }
+        }
+
+        private void TimerLogic()
+        {
+            if (timerCountdown > 0)
+            {
+                timerCountdown -= 100;
+                Console.WriteLine("Timer countdown: " + timerCountdown / 1000 + " seconds remaining.");
+            }
+            else
+            {
+                if (!isCleared)
+                {
+                    this.queue.Clear();
+                    this.isCleared = true;
+                    this.txtKeystroke.Text = string.Empty;
+                }
+            }
+        }
+    }
+
+    public class FixedSizedQueue<T>
+    {
+        private readonly ConcurrentQueue<T> q = new();
+        private readonly object lockObject = new();
+
+        public FixedSizedQueue(int limit)
+        {
+            this.limit = limit;
+        }
+
+        private readonly int limit;
+
+        public List<T> GetAll => [.. this.q];
+
+        public void Enqueue(T obj)
+        {
+            q.Enqueue(obj);
+            lock (lockObject)
+            {
+               while (q.Count > limit && q.TryDequeue(out var overflow));
+            }
+        }
+
+        public void Clear()
+        {
+            q.Clear();
         }
     }
 }
