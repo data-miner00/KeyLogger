@@ -5,18 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyLogger"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="96,75,0,0" VerticalAlignment="Top"/>
-
-        <StackPanel>
-          <TextBlock Width="300" Height="20">
-            Type some text into the TextBox and press the Enter key.
-          </TextBlock>
-          <TextBox Width="300" Height="30" Name="textBox1"
-                   KeyDown="OnKeyDownHandler"/>
-          <TextBlock Width="300" Height="100" Name="textBlock1"/>
-        </StackPanel>
-
+        Title="MainWindow" Height="300" Width="400" Loaded="Window_Loaded" Deactivated="Window_Deactivated">
+    <Grid Margin="0,0,0,9">
+        <TextBlock Name="textBlock1" Margin="10,38,0,0" TextWrapping="Wrap"/>
+        <Label x:Name="lblProcessId" Content="Id of the process" Margin="150,0,140,200"/>
     </Grid>
 </Window>

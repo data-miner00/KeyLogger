@@ -31,15 +31,6 @@ namespace KeyLogger
             InitializeComponent();
         }
 
-        private void OnKeyDownHandler(object sender, KeyEventArgs e)
-        {
-            MessageBox.Show(textBlock1.Text);
-            if (e.Key == Key.Return)
-            {
-                textBlock1.Text = "You Entered: " + textBox1.Text;
-            }
-        }
-
         private static IntPtr SetHook(User32.LowLevelHook proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
@@ -64,6 +55,20 @@ namespace KeyLogger
         public void Dispose()
         {
             User32.UnhookWindowsHookEx(_hookID);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.lblProcessId.Content = _hookID;
+
+            var desktopWorkingArea = SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Right - this.Width;
+            this.Top = desktopWorkingArea.Bottom - this.Height;
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            this.Topmost = true;
         }
     }
 }
