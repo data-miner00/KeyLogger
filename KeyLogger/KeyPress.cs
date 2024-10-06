@@ -8,7 +8,7 @@ using Keys = System.Windows.Forms.Keys;
 
 namespace KeyLogger
 {
-    internal struct KeyPress
+    internal readonly struct KeyPress
     {
         private readonly Keys keyCode;
         private readonly bool isCapsLockOn;
@@ -66,27 +66,27 @@ namespace KeyLogger
                 Keys.Scroll => "<scroll>",
                 Keys.Pause => "<pause>",
                 Keys.Insert => "<insert>",
-                Keys.Home => "<home>",
-                Keys.Delete => "<delete>",
-                Keys.End => "<end>",
-                Keys.Prior => "<page up>",
-                Keys.Next => "<page down>",
-                Keys.Escape => "<esc>",
-                Keys.NumLock => "<numlock>",
-                Keys.Tab => "<tab>",
-                Keys.Back => "<backspace>",
-                Keys.Return => "<enter>",
+                Keys.Home => "↖",
+                Keys.Delete => "⌦",
+                Keys.End => "↘",
+                Keys.Prior => "⇞",
+                Keys.Next => "⇟",
+                Keys.Escape => "⎋",
+                Keys.NumLock => "⇭",
+                Keys.Tab => "⇥",
+                Keys.Back => "⌫",
+                Keys.Return => "↩",
                 Keys.Space => "␣",
-                Keys.Left => "<left>",
-                Keys.Up => "<up>",
-                Keys.Right => "<right>",
-                Keys.Down => "<down>",
+                Keys.Left => "←",
+                Keys.Up => "↑",
+                Keys.Right => "→",
+                Keys.Down => "↓",
 
-                Keys.LMenu | Keys.RMenu | Keys.Alt => "<alt>",
-                Keys.LWin | Keys.RWin => "<win>",
-                Keys.Capital => "<capsLock>",
-                Keys.LControlKey | Keys.RControlKey => "<ctrl>",
-                Keys.LShiftKey | Keys.RShiftKey => "<shift>",
+                Keys.LMenu | Keys.RMenu | Keys.Alt => "⌥",
+                Keys.LWin | Keys.RWin => "⌘",
+                Keys.Capital => "⇪",
+                Keys.LControlKey | Keys.RControlKey => "⌃",
+                Keys.LShiftKey | Keys.RShiftKey => "⇧",
 
                 Keys.VolumeDown => "<volumeDown>",
                 Keys.VolumeUp => "<volumeUp>",
