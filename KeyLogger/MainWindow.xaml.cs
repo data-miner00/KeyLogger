@@ -14,8 +14,6 @@ using System;
 using System.Threading.Tasks;
 
 using Keys = System.Windows.Forms.Keys;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Timers;
 using Thread = System.Threading.Thread;
@@ -189,34 +187,5 @@ namespace KeyLogger
 			//0x8000 == 1000 0000 0000 0000			
 			return Convert.ToBoolean(value & 0x8000);
 		}
-    }
-
-    public class FixedSizedQueue<T>
-    {
-        private readonly ConcurrentQueue<T> q = new();
-        private readonly object lockObject = new();
-
-        public FixedSizedQueue(int limit)
-        {
-            this.limit = limit;
-        }
-
-        private readonly int limit;
-
-        public List<T> GetAll => [.. this.q];
-
-        public void Enqueue(T obj)
-        {
-            q.Enqueue(obj);
-            lock (lockObject)
-            {
-               while (q.Count > limit && q.TryDequeue(out var overflow));
-            }
-        }
-
-        public void Clear()
-        {
-            q.Clear();
-        }
     }
 }
