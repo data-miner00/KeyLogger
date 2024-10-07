@@ -82,11 +82,11 @@ namespace KeyLogger
                 Keys.Right => "→",
                 Keys.Down => "↓",
 
-                Keys.LMenu | Keys.RMenu | Keys.Alt => "⌥",
-                Keys.LWin | Keys.RWin => "⌘",
+                Keys.LMenu or Keys.RMenu or Keys.Alt => "⌥",
+                Keys.LWin or Keys.RWin => "⌘",
                 Keys.Capital => "⇪",
-                Keys.LControlKey | Keys.RControlKey => "⌃",
-                Keys.LShiftKey | Keys.RShiftKey => "⇧",
+                Keys.LControlKey or Keys.RControlKey => "⌃",
+                Keys.LShiftKey or Keys.RShiftKey => "⇧",
 
                 Keys.VolumeDown => "<volumeDown>",
                 Keys.VolumeUp => "<volumeUp>",
