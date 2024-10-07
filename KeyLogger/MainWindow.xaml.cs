@@ -213,11 +213,11 @@ namespace KeyLogger
             {
                 if (isShiftPressed)
                 {
-                    rctShift.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                    rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                 }
                 else
                 {
-                    rctShift.Fill = new SolidColorBrush(FillColor.FromRgb(0, 255, 0));
+                    rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 255, 0));
                 }
             }
             else
@@ -226,11 +226,11 @@ namespace KeyLogger
                 {
                     if (isShiftPressed)
                     {
-                        rctShift.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                        rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                     }
                     else
                     {
-                        rctShift.Fill = new SolidColorBrush(FillColor.FromRgb(0, 255, 0));
+                        rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 255, 0));
                     }
                 }));
             }
@@ -242,11 +242,11 @@ namespace KeyLogger
             {
                 if (isCtrlPressed)
                 {
-                    rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                    rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                 }
                 else
                 {
-                    rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                    rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                 }
             }
             else
@@ -255,11 +255,11 @@ namespace KeyLogger
                 {
                     if (isCtrlPressed)
                     {
-                        rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                        rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                     }
                     else
                     {
-                        rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                        rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                     }
                 }));
             }
@@ -271,11 +271,11 @@ namespace KeyLogger
             {
                 if (isAltPressed)
                 {
-                    rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                    rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                 }
                 else
                 {
-                    rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                    rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                 }
             }
             else
@@ -284,11 +284,11 @@ namespace KeyLogger
                 {
                     if (isAltPressed)
                     {
-                        rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                        rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                     }
                     else
                     {
-                        rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                        rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                     }
                 }));
             }
@@ -300,11 +300,11 @@ namespace KeyLogger
             {
                 if (isWinPressed)
                 {
-                    rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                    rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                 }
                 else
                 {
-                    rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                    rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                 }
             }
             else
@@ -313,11 +313,11 @@ namespace KeyLogger
                 {
                     if (isWinPressed)
                     {
-                        rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                        rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
                     }
                     else
                     {
-                        rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                        rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                     }
                 }));
             }

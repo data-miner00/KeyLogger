@@ -21,10 +21,18 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Rectangle x:Name="rctShift" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
-                <Rectangle x:Name="rctCtrl" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
-                <Rectangle x:Name="rctAlt" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
-                <Rectangle x:Name="rctWindows" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF13274A"/>
+                <Border x:Name="rctShift" Height="40" VerticalAlignment="Top" Width="60">
+                    <TextBlock Text="⇧" Foreground="#cccccc" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                </Border>
+                <Border x:Name="rctCtrl" Height="40" VerticalAlignment="Top" Width="60">
+                    <TextBlock Text="⌃" Foreground="#cccccc" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                </Border>
+                <Border x:Name="rctAlt" Height="40" VerticalAlignment="Top" Width="60">
+                    <TextBlock Text="⌥" Foreground="#cccccc" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                </Border>
+                <Border x:Name="rctWindows" Height="40" VerticalAlignment="Top" Width="60">
+                    <TextBlock Text="⌘" Foreground="#cccccc" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                </Border>
             </StackPanel>
             <TextBox
                 Margin="0,15,0,0"
