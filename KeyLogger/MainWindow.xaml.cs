@@ -37,6 +37,7 @@ namespace KeyLogger
         private bool isShiftPressed = false;
         private bool isCtrlPressed = false;
         private bool isAltPressed = false;
+        private bool isWinPressed = false;
 
         public MainWindow()
         {
@@ -85,6 +86,13 @@ namespace KeyLogger
                     UpdateAltUI();
                 }
 
+                var winKeyState = User32.GetAsyncKeyState(Keys.LWin);
+                if (FirstBitIsTurnedOn(winKeyState))
+                {
+                    isWinPressed = true;
+                    UpdateWinUI();
+                }
+
 				//We need to use GetKeyState to verify if CapsLock is "TOGGLED" 
 				//because GetAsyncKeyState only verifies if it is "PRESSED" at the moment
 				if (User32.GetKeyState(Keys.Capital) == 1)
@@ -129,6 +137,16 @@ namespace KeyLogger
                     {
                         isAltPressed = false;
                         UpdateAltUI();
+                    }
+                }
+
+                if (isWinPressed)
+                {
+                    var winKeyState = User32.GetAsyncKeyState(Keys.LWin);
+                    if (!FirstBitIsTurnedOn(winKeyState))
+                    {
+                        isWinPressed = false;
+                        UpdateWinUI();
                     }
                 }
             }
@@ -271,6 +289,35 @@ namespace KeyLogger
                     else
                     {
                         rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                    }
+                }));
+            }
+        }
+
+        private void UpdateWinUI()
+        {
+            if (rctWindows.Dispatcher.Thread == Thread.CurrentThread)
+            {
+                if (isWinPressed)
+                {
+                    rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                }
+                else
+                {
+                    rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                }
+            }
+            else
+            {
+                rctWindows.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (isWinPressed)
+                    {
+                        rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                    }
+                    else
+                    {
+                        rctWindows.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                     }
                 }));
             }
