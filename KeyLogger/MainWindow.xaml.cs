@@ -36,6 +36,7 @@ namespace KeyLogger
         private bool isDisposed = false;
         private bool isShiftPressed = false;
         private bool isCtrlPressed = false;
+        private bool isAltPressed = false;
 
         public MainWindow()
         {
@@ -59,7 +60,7 @@ namespace KeyLogger
 
         private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)0x0100) // WM_KEYDOWN message
+            if (nCode >= 0 && (wParam == (IntPtr)0x0100 || wParam == (IntPtr)0x0104)) // WM_KEYDOWN message
             {
 				bool capsLockActive = false;
 
@@ -77,6 +78,13 @@ namespace KeyLogger
                     UpdateCtrlUI();
                 }
 
+                var altKeyState = User32.GetAsyncKeyState(Keys.LMenu);
+                if (FirstBitIsTurnedOn(altKeyState))
+                {
+                    isAltPressed = true;
+                    UpdateAltUI();
+                }
+
 				//We need to use GetKeyState to verify if CapsLock is "TOGGLED" 
 				//because GetAsyncKeyState only verifies if it is "PRESSED" at the moment
 				if (User32.GetKeyState(Keys.Capital) == 1)
@@ -92,7 +100,7 @@ namespace KeyLogger
 
                 this.timerCountdown = timerMax;
             }
-            else if (nCode >= 0 && wParam == (IntPtr)0x0101) // WM_KEYUP message
+            else if (nCode >= 0 && (wParam == (IntPtr)0x0101 || wParam == (IntPtr)0x0104)) // WM_KEYUP message
             {
                 if (isShiftPressed)
                 {
@@ -111,6 +119,16 @@ namespace KeyLogger
                     {
                         isCtrlPressed = false;
                         UpdateCtrlUI();
+                    }
+                }
+
+                if (isAltPressed)
+                {
+                    var altKeyState = User32.GetAsyncKeyState(Keys.LMenu);
+                    if (!FirstBitIsTurnedOn(altKeyState))
+                    {
+                        isAltPressed = false;
+                        UpdateAltUI();
                     }
                 }
             }
@@ -224,6 +242,35 @@ namespace KeyLogger
                     else
                     {
                         rctCtrl.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                    }
+                }));
+            }
+        }
+
+        private void UpdateAltUI()
+        {
+            if (rctAlt.Dispatcher.Thread == Thread.CurrentThread)
+            {
+                if (isAltPressed)
+                {
+                    rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                }
+                else
+                {
+                    rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
+                }
+            }
+            else
+            {
+                rctAlt.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (isAltPressed)
+                    {
+                        rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
+                    }
+                    else
+                    {
+                        rctAlt.Fill = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
                     }
                 }));
             }
