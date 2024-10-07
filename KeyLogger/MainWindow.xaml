@@ -11,33 +11,40 @@
         Width="240"
         Loaded="Window_Loaded"
         ResizeMode="NoResize"
-        Deactivated="Window_Deactivated" Background="#FF060E1D" MouseDown="Window_MouseDown">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Rectangle x:Name="rctShift" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
-            <Rectangle x:Name="rctCtrl" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
-            <Rectangle x:Name="rctAlt" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
-            <Rectangle x:Name="rctWindows" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF13274A"/>
-        </StackPanel>
-        <TextBox
-            Grid.Row="0"
-            IsEnabled="True"
-            x:Name="txtKeystroke"
-            HorizontalAlignment="Left"
-            HorizontalContentAlignment="Center"
-            TextWrapping="Wrap"
-            Text=""
-            VerticalAlignment="Center"
-            Width="240"
-            Height="70"
-            FontFamily="Bahnschrift"
-            FontSize="48"
-            BorderBrush="{x:Null}"
-            Background="{x:Null}"
-            Foreground="White"/>
-    </Grid>
+        AllowsTransparency="True"
+        Cursor="SizeAll"
+        Deactivated="Window_Deactivated" Background="Transparent" MouseDown="Window_MouseDown">
+    <Border CornerRadius="20" Background="#FF060E1D">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Rectangle x:Name="rctShift" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
+                <Rectangle x:Name="rctCtrl" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
+                <Rectangle x:Name="rctAlt" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF060E1D"/>
+                <Rectangle x:Name="rctWindows" HorizontalAlignment="Left" Height="40" Stroke="#FF3E3E3E" VerticalAlignment="Top" Width="60" Fill="#FF13274A"/>
+            </StackPanel>
+            <TextBox
+                Margin="0,15,0,0"
+                Grid.Row="0"
+                IsReadOnly="True"
+                x:Name="txtKeystroke"
+                HorizontalAlignment="Left"
+                HorizontalContentAlignment="Center"
+                TextWrapping="Wrap"
+                Text=""
+                VerticalAlignment="Center"
+                Width="240"
+                Height="70"
+                FontFamily="Bahnschrift"
+                FontSize="48"
+                BorderBrush="{x:Null}"
+                Background="{x:Null}"
+                IsHitTestVisible="False"
+                Focusable="False"
+                Foreground="White"/>
+        </Grid>
+    </Border>
 </Window>
