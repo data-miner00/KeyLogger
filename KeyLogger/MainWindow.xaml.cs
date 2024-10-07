@@ -328,5 +328,13 @@ namespace KeyLogger
 			//0x8000 == 1000 0000 0000 0000			
 			return Convert.ToBoolean(value & 0x8000);
 		}
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
     }
 }

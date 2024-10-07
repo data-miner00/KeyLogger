@@ -11,7 +11,7 @@
         Width="240"
         Loaded="Window_Loaded"
         ResizeMode="NoResize"
-        Deactivated="Window_Deactivated" Background="#FF060E1D">
+        Deactivated="Window_Deactivated" Background="#FF060E1D" MouseDown="Window_MouseDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
