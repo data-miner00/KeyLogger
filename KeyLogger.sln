@@ -10,13 +10,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5CD7DAD-2742-40C5-9DA0-1193F34EE10B}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		azure-pipelines.yml = azure-pipelines.yml
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyLogger.Core", "KeyLogger.Core\KeyLogger.Core.csproj", "{67BEB4E4-1DD2-419A-897F-242B9C687BF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyLogger.Core", "KeyLogger.Core\KeyLogger.Core.csproj", "{67BEB4E4-1DD2-419A-897F-242B9C687BF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyLogger.Core.UnitTests", "KeyLogger.Core.UnitTests\KeyLogger.Core.UnitTests.csproj", "{B3B668C5-9BA1-4B6A-B58F-C74DCF896455}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyLogger.Core.UnitTests", "KeyLogger.Core.UnitTests\KeyLogger.Core.UnitTests.csproj", "{B3B668C5-9BA1-4B6A-B58F-C74DCF896455}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BB95DB07-5574-4F3C-AA3B-DE76AD244CF8}"
 EndProject

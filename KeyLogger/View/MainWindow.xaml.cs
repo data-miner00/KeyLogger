@@ -19,7 +19,7 @@ using System.Timers;
 using Thread = System.Threading.Thread;
 using FillColor = System.Windows.Media.Color;
 
-namespace KeyLogger
+namespace KeyLogger.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

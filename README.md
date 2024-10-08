@@ -8,7 +8,7 @@ A simple key logger that logs the keystroke onto the screen for Windows.
 - [ ] Display in Systems Tray
 - [ ] Refactor
 - [ ] Unit Testing
-- [ ] Azure Pipeline
+- [x] Azure Pipeline
 - [ ] Logging (Metadata only)
 - [ ] Autofac IoC
 - [ ] Preset themes
@@ -26,3 +26,4 @@ Appreciate these people and resources that make this project possible.
 - [How do I create a WPF Rounded Corner container?](https://stackoverflow.com/questions/120851/how-do-i-create-a-wpf-rounded-corner-container)
 - [Make WPF window draggable, no matter what element is clicked](https://stackoverflow.com/questions/7417739/make-wpf-window-draggable-no-matter-what-element-is-clicked)
 - [How to remove white strip on top of WPF window with WindowStyle=None?](https://stackoverflow.com/questions/36631165/how-to-remove-white-strip-on-top-of-wpf-window-with-windowstyle-none)
+- [Moving MainWindow.xaml](https://stackoverflow.com/questions/25472765/moving-mainwindow-xaml)
