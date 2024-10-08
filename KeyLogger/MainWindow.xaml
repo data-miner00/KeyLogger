@@ -21,17 +21,17 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Border x:Name="rctShift" Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 1 0" BorderBrush="#888">
-                    <TextBlock Text="⇧" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                <Border Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 1 0" BorderBrush="#888">
+                    <TextBlock x:Name="txtShift" Text="⇧" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
                 </Border>
-                <Border x:Name="rctCtrl" Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 1 0" BorderBrush="#888">
-                    <TextBlock Text="⌃" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                <Border Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 1 0" BorderBrush="#888">
+                    <TextBlock x:Name="txtCtrl" Text="⌃" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
                 </Border>
-                <Border x:Name="rctAlt" Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 1 0" BorderBrush="#888">
-                    <TextBlock Text="⌥" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                <Border Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 1 0" BorderBrush="#888">
+                    <TextBlock x:Name="txtAlt" Text="⌥" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
                 </Border>
-                <Border x:Name="rctWindows" Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 0 0" BorderBrush="#888">
-                    <TextBlock Text="⌘" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
+                <Border Height="40" VerticalAlignment="Top" Width="60" BorderThickness="0 1 0 0" BorderBrush="#888">
+                    <TextBlock x:Name="txtWin" Text="⌘" Foreground="#888888" FontSize="24" HorizontalAlignment="Center" Background="Transparent" />
                 </Border>
             </StackPanel>
             <TextBox

@@ -38,6 +38,8 @@ namespace KeyLogger
         private bool isCtrlPressed = false;
         private bool isAltPressed = false;
         private bool isWinPressed = false;
+        private static readonly SolidColorBrush WhiteBrush = new(Colors.White);
+        private static readonly SolidColorBrush GrayBrush = new(FillColor.FromRgb(136, 136, 136));
 
         public MainWindow()
         {
@@ -209,117 +211,109 @@ namespace KeyLogger
 
         private void UpdateShiftUI()
         {
-            if (rctShift.Dispatcher.Thread == Thread.CurrentThread)
+            if (this.txtShift.Dispatcher.Thread == Thread.CurrentThread)
             {
-                if (isShiftPressed)
-                {
-                    rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                }
-                else
-                {
-                    rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 255, 0));
-                }
+                InvokeUpdate();
             }
             else
             {
-                rctShift.Dispatcher.Invoke(new Action(() =>
+                this.txtShift.Dispatcher.Invoke(new Action(() =>
                 {
-                    if (isShiftPressed)
-                    {
-                        rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                    }
-                    else
-                    {
-                        rctShift.Background = new SolidColorBrush(FillColor.FromRgb(0, 255, 0));
-                    }
+                    InvokeUpdate();
                 }));
+            }
+
+            void InvokeUpdate()
+            {
+                if (this.isShiftPressed)
+                {
+                    this.txtShift.Foreground = WhiteBrush;
+                }
+                else
+                {
+                    this.txtShift.Foreground = GrayBrush;
+                }
             }
         }
 
         public void UpdateCtrlUI()
         {
-            if (rctCtrl.Dispatcher.Thread == Thread.CurrentThread)
+            if (this.txtCtrl.Dispatcher.Thread == Thread.CurrentThread)
             {
-                if (isCtrlPressed)
-                {
-                    rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                }
-                else
-                {
-                    rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
-                }
+                InvokeUpdate();
             }
             else
             {
-                rctCtrl.Dispatcher.Invoke(new Action(() =>
+                this.txtCtrl.Dispatcher.Invoke(new Action(() =>
                 {
-                    if (isCtrlPressed)
-                    {
-                        rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                    }
-                    else
-                    {
-                        rctCtrl.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
-                    }
+                    InvokeUpdate();
                 }));
+            }
+
+            void InvokeUpdate()
+            {
+                if (this.isCtrlPressed)
+                {
+                    this.txtCtrl.Foreground = WhiteBrush;
+                }
+                else
+                {
+                    this.txtCtrl.Foreground = GrayBrush;
+                }
             }
         }
 
         private void UpdateAltUI()
         {
-            if (rctAlt.Dispatcher.Thread == Thread.CurrentThread)
+            if (this.txtAlt.Dispatcher.Thread == Thread.CurrentThread)
             {
-                if (isAltPressed)
-                {
-                    rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                }
-                else
-                {
-                    rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
-                }
+                InvokeUpdate();
             }
             else
             {
-                rctAlt.Dispatcher.Invoke(new Action(() =>
+                this.txtAlt.Dispatcher.Invoke(new Action(() =>
                 {
-                    if (isAltPressed)
-                    {
-                        rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                    }
-                    else
-                    {
-                        rctAlt.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
-                    }
+                    InvokeUpdate();
                 }));
+            }
+
+            void InvokeUpdate()
+            {
+                if (this.isAltPressed)
+                {
+                    this.txtAlt.Foreground = WhiteBrush;
+                }
+                else
+                {
+                    this.txtAlt.Foreground = GrayBrush;
+                }
             }
         }
 
         private void UpdateWinUI()
         {
-            if (rctWindows.Dispatcher.Thread == Thread.CurrentThread)
+            if (this.txtWin.Dispatcher.Thread == Thread.CurrentThread)
             {
-                if (isWinPressed)
-                {
-                    rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                }
-                else
-                {
-                    rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
-                }
+                InvokeUpdate();
             }
             else
             {
-                rctWindows.Dispatcher.Invoke(new Action(() =>
+                this.txtWin.Dispatcher.Invoke(new Action(() =>
                 {
-                    if (isWinPressed)
-                    {
-                        rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(0, 0, 0));
-                    }
-                    else
-                    {
-                        rctWindows.Background = new SolidColorBrush(FillColor.FromRgb(128, 255, 38));
-                    }
+                    InvokeUpdate();
                 }));
+            }
+
+            void InvokeUpdate()
+            {
+                if (this.isWinPressed)
+                {
+                    this.txtWin.Foreground = WhiteBrush;
+                }
+                else
+                {
+                    this.txtWin.Foreground = GrayBrush;
+                }
             }
         }
 
