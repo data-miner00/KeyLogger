@@ -14,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyLogger.Core", "KeyLogger.Core\KeyLogger.Core.csproj", "{67BEB4E4-1DD2-419A-897F-242B9C687BF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyLogger.Core.UnitTests", "KeyLogger.Core.UnitTests\KeyLogger.Core.UnitTests.csproj", "{B3B668C5-9BA1-4B6A-B58F-C74DCF896455}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BB95DB07-5574-4F3C-AA3B-DE76AD244CF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +34,20 @@ Global
 		{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67BEB4E4-1DD2-419A-897F-242B9C687BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67BEB4E4-1DD2-419A-897F-242B9C687BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67BEB4E4-1DD2-419A-897F-242B9C687BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67BEB4E4-1DD2-419A-897F-242B9C687BF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B668C5-9BA1-4B6A-B58F-C74DCF896455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B668C5-9BA1-4B6A-B58F-C74DCF896455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B668C5-9BA1-4B6A-B58F-C74DCF896455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B668C5-9BA1-4B6A-B58F-C74DCF896455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3B668C5-9BA1-4B6A-B58F-C74DCF896455} = {BB95DB07-5574-4F3C-AA3B-DE76AD244CF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66F27DD0-92A4-4026-B6B1-1D0D3C4D393D}
