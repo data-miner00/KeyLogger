@@ -5,11 +5,12 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyLogger", "KeyLogger\KeyLogger.csproj", "{AC47869A-604F-4C4E-8799-41E0B1A092D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyLogger.Console", "KeyLogger.Console\KeyLogger.Console.csproj", "{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyLogger.Console", "KeyLogger.Console\KeyLogger.Console.csproj", "{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5CD7DAD-2742-40C5-9DA0-1193F34EE10B}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
