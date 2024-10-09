@@ -2,6 +2,8 @@
 
 A simple key logger that logs the keystroke onto the screen for Windows.
 
+![Application demo](demo.gif)
+
 ## Roadmap
 
 - [ ] Configurable Settings
@@ -13,6 +15,11 @@ A simple key logger that logs the keystroke onto the screen for Windows.
 - [ ] Autofac IoC
 - [ ] Preset themes
 - [ ] Benchmarks
+
+## Known Bugs
+
+- [ ] Sometimes unable to display the active modifier keys correctly.
+- [ ] Sometimes the modifier key remains active despite the key has already been released.
 
 ## References
 
