@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using KeyLogger.Core;
+using KeyLogger.Core.Extensions;
 
 using FillColor = System.Windows.Media.Color;
 using Keys = System.Windows.Forms.Keys;
@@ -78,28 +79,28 @@ public sealed partial class MainWindow : Window, IDisposable
             bool capsLockActive = false;
 
             var shiftKeyState = User32.GetAsyncKeyState(Keys.ShiftKey);
-            if (FirstBitIsTurnedOn(shiftKeyState))
+            if (shiftKeyState.FirstBitIsTurnedOn())
             {
                 this.isShiftPressed = true;
                 this.UpdateShiftUI();
             }
 
             var ctrlKeyState = User32.GetAsyncKeyState(Keys.ControlKey);
-            if (FirstBitIsTurnedOn(ctrlKeyState))
+            if (ctrlKeyState.FirstBitIsTurnedOn())
             {
                 this.isCtrlPressed = true;
                 this.UpdateCtrlUI();
             }
 
             var altKeyState = User32.GetAsyncKeyState(Keys.LMenu);
-            if (FirstBitIsTurnedOn(altKeyState))
+            if (altKeyState.FirstBitIsTurnedOn())
             {
                 this.isAltPressed = true;
                 this.UpdateAltUI();
             }
 
             var winKeyState = User32.GetAsyncKeyState(Keys.LWin);
-            if (FirstBitIsTurnedOn(winKeyState))
+            if (winKeyState.FirstBitIsTurnedOn())
             {
                 this.isWinPressed = true;
                 this.UpdateWinUI();
@@ -125,7 +126,7 @@ public sealed partial class MainWindow : Window, IDisposable
             if (this.isShiftPressed)
             {
                 var shiftKeyState = User32.GetAsyncKeyState(Keys.ShiftKey);
-                if (!FirstBitIsTurnedOn(shiftKeyState))
+                if (!shiftKeyState.FirstBitIsTurnedOn())
                 {
                     this.isShiftPressed = false;
                     this.UpdateShiftUI();
@@ -135,7 +136,7 @@ public sealed partial class MainWindow : Window, IDisposable
             if (this.isCtrlPressed)
             {
                 var ctrlKeyState = User32.GetAsyncKeyState(Keys.ControlKey);
-                if (!FirstBitIsTurnedOn(ctrlKeyState))
+                if (!ctrlKeyState.FirstBitIsTurnedOn())
                 {
                     this.isCtrlPressed = false;
                     this.UpdateCtrlUI();
@@ -145,7 +146,7 @@ public sealed partial class MainWindow : Window, IDisposable
             if (this.isAltPressed)
             {
                 var altKeyState = User32.GetAsyncKeyState(Keys.LMenu);
-                if (!FirstBitIsTurnedOn(altKeyState))
+                if (!altKeyState.FirstBitIsTurnedOn())
                 {
                     this.isAltPressed = false;
                     this.UpdateAltUI();
@@ -155,7 +156,7 @@ public sealed partial class MainWindow : Window, IDisposable
             if (this.isWinPressed)
             {
                 var winKeyState = User32.GetAsyncKeyState(Keys.LWin);
-                if (!FirstBitIsTurnedOn(winKeyState))
+                if (!winKeyState.FirstBitIsTurnedOn())
                 {
                     this.isWinPressed = false;
                     this.UpdateWinUI();
@@ -316,12 +317,6 @@ public sealed partial class MainWindow : Window, IDisposable
                 this.txtWin.Foreground = GrayBrush;
             }
         }
-    }
-
-    private static bool FirstBitIsTurnedOn(short value)
-    {
-        // 0x8000 == 1000 0000 0000 0000
-        return Convert.ToBoolean(value & 0x8000);
     }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
