@@ -17,27 +17,32 @@ using Thread = System.Threading.Thread;
 /// <summary>
 /// Interaction logic for MainWindow.xaml.
 /// </summary>
-public partial class MainWindow : Window, IDisposable
+public sealed partial class MainWindow : Window, IDisposable
 {
-    private User32.LowLevelHook _proc;
-    private static IntPtr _hookID = IntPtr.Zero;
+    private static readonly SolidColorBrush WhiteBrush = new(Colors.White);
+    private static readonly SolidColorBrush GrayBrush = new(FillColor.FromRgb(136, 136, 136));
+
     private readonly FixedSizedQueue<string> queue = new(5);
     private readonly Timer idleTimer = new(TimeSpan.FromMilliseconds(500));
     private readonly int timerMax = 1000;
+    private readonly User32.LowLevelHook callback;
+    private readonly IntPtr hookId = IntPtr.Zero;
+
     private int timerCountdown;
-    private bool isCleared = false;
+    private bool isQueueCleared = false;
     private bool isDisposed = false;
     private bool isShiftPressed = false;
     private bool isCtrlPressed = false;
     private bool isAltPressed = false;
     private bool isWinPressed = false;
-    private static readonly SolidColorBrush WhiteBrush = new(Colors.White);
-    private static readonly SolidColorBrush GrayBrush = new(FillColor.FromRgb(136, 136, 136));
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MainWindow"/> class.
+    /// </summary>
     public MainWindow()
     {
-        this._proc = this.HookCallback;
-        _hookID = SetHook(_proc);
+        this.callback = this.HookCallback;
+        this.hookId = SetHook(this.callback);
 
         this.idleTimer.Elapsed += this.OnTimedEvent!;
         this.timerCountdown = this.timerMax;
@@ -46,6 +51,16 @@ public partial class MainWindow : Window, IDisposable
 
         Task.Delay(1000).GetAwaiter().GetResult();
         this.idleTimer.Start();
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        if (!this.isDisposed)
+        {
+            User32.UnhookWindowsHookEx(this.hookId);
+            this.isDisposed = true;
+        }
     }
 
     private static IntPtr SetHook(User32.LowLevelHook proc)
@@ -101,7 +116,7 @@ public partial class MainWindow : Window, IDisposable
 
             this.queue.Enqueue(new KeyPress((Keys)vkCode, this.isShiftPressed, capsLockActive).ToString());
             this.txtKeystroke.Text = string.Join(string.Empty, this.queue.GetAll);
-            this.isCleared = false;
+            this.isQueueCleared = false;
 
             this.timerCountdown = this.timerMax;
         }
@@ -148,16 +163,7 @@ public partial class MainWindow : Window, IDisposable
             }
         }
 
-        return User32.CallNextHookEx(_hookID, nCode, wParam, lParam);
-    }
-
-    public void Dispose()
-    {
-        if (!this.isDisposed)
-        {
-            User32.UnhookWindowsHookEx(_hookID);
-            this.isDisposed = true;
-        }
+        return User32.CallNextHookEx(this.hookId, nCode, wParam, lParam);
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -195,10 +201,10 @@ public partial class MainWindow : Window, IDisposable
         }
         else
         {
-            if (!this.isCleared)
+            if (!this.isQueueCleared)
             {
                 this.queue.Clear();
-                this.isCleared = true;
+                this.isQueueCleared = true;
                 this.txtKeystroke.Text = string.Empty;
             }
         }
