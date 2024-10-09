@@ -18,6 +18,7 @@ using System.Linq;
 using System.Timers;
 using Thread = System.Threading.Thread;
 using FillColor = System.Windows.Media.Color;
+using KeyLogger.Core;
 
 namespace KeyLogger.View
 {

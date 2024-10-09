@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 using Keys = System.Windows.Forms.Keys;
 
-namespace KeyLogger
+namespace KeyLogger.Core
 {
-    internal readonly struct KeyPress
+    public readonly struct KeyPress
     {
         private readonly Keys keyCode;
         private readonly bool isCapsLockOn;
         private readonly bool isShiftPressed;
 
-        internal KeyPress(Keys keyCode, bool shiftPressed, bool capsLockOn)
+        public KeyPress(Keys keyCode, bool shiftPressed, bool capsLockOn)
         {
             this.keyCode = keyCode;
             this.isShiftPressed = shiftPressed;

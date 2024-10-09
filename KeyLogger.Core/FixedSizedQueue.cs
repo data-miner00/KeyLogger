@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-namespace KeyLogger
+namespace KeyLogger.Core
 {
     public class FixedSizedQueue<T>
     {
