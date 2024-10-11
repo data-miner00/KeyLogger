@@ -32,6 +32,7 @@ steps:
       configuration: '$(buildConfiguration)'
       codeCoverageEnabled: true
       runSettingsFile: coverage.runsettings
+      otherConsoleOptions: '/collect:"Code Coverage;Format=Cobertura"'
 
   - task: PublishCodeCoverageResults@2
     displayName: Publish code coverage
