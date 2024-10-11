@@ -13,6 +13,8 @@ public class FixedSizedQueue<T>
     private readonly object lockObject = new();
     private readonly int limit;
 
+    private T? lastEntry;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="FixedSizedQueue{T}"/> class.
     /// </summary>
@@ -28,11 +30,30 @@ public class FixedSizedQueue<T>
     public List<T> GetAll => [.. this.backingQueue];
 
     /// <summary>
+    /// Gets the first item in the queue. Returns <c>null</c> if nothing is in the queue.
+    /// </summary>
+    public T? Peek
+    {
+        get
+        {
+            this.backingQueue.TryPeek(out var item);
+
+            return item;
+        }
+    }
+
+    /// <summary>
+    /// Gets the last item in the queue. Returns <c>null</c> if nothing is in the queue.
+    /// </summary>
+    public T? PeekLast => this.lastEntry;
+
+    /// <summary>
     /// Pushes an item into the queue.
     /// </summary>
     /// <param name="obj">The item to be added.</param>
     public void Enqueue(T obj)
     {
+        this.lastEntry = obj;
         this.backingQueue.Enqueue(obj);
         lock (this.lockObject)
         {
@@ -45,6 +66,7 @@ public class FixedSizedQueue<T>
     /// </summary>
     public void Clear()
     {
+        this.lastEntry = default;
         this.backingQueue.Clear();
     }
 }

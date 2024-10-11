@@ -1,6 +1,7 @@
 ﻿namespace KeyLogger.View;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ public sealed partial class MainWindow : Window, IDisposable
 {
     private static readonly SolidColorBrush WhiteBrush = new(Colors.White);
     private static readonly SolidColorBrush GrayBrush = new(FillColor.FromRgb(136, 136, 136));
+    private static readonly List<string> ModifierStringRepresentations = ["⇧", "⌃", "⌥", "⌘"];
 
     private readonly FixedSizedQueue<string> queue = new(5);
     private readonly Timer idleTimer = new(TimeSpan.FromMilliseconds(500));
@@ -115,8 +117,15 @@ public sealed partial class MainWindow : Window, IDisposable
 
             int vkCode = Marshal.ReadInt32(lParam);
 
-            this.queue.Enqueue(new KeyPress((Keys)vkCode, this.isShiftPressed, capsLockActive).ToString());
-            this.txtKeystroke.Text = string.Join(string.Empty, this.queue.GetAll);
+            var currentKeyPress = new KeyPress((Keys)vkCode, this.isShiftPressed, capsLockActive).ToString();
+
+            if (!currentKeyPress.Equals(this.queue.PeekLast)
+                || !ModifierStringRepresentations.Contains(currentKeyPress))
+            {
+                this.queue.Enqueue(currentKeyPress);
+                this.txtKeystroke.Text = string.Join(string.Empty, this.queue.GetAll);
+            }
+
             this.isQueueCleared = false;
 
             this.timerCountdown = this.timerMax;
