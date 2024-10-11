@@ -30,3 +30,10 @@ steps:
     inputs:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
+      codeCoverageEnabled: true
+      runSettingsFile: coverage.runsettings
+
+  - task: PublishCodeCoverageResults@2
+    displayName: Publish code coverage
+    inputs:
+      summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
