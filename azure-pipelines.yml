@@ -27,18 +27,14 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-  - task: VSTest@2
+  - task: VSTest@3
     inputs:
-      testSelector: 'testAssemblies'
-      testAssemblyVer2: |
-        **\*test*.dll
-        !**\*TestAdapter.dll
-        !**\obj\**
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
       codeCoverageEnabled: true
       runSettingsFile: coverage.runsettings
       diagnosticsEnabled: true
+      otherConsoleOptions: '/collect:"XPlat Code Coverage"'
 
   - task: PublishCodeCoverageResults@2
     displayName: Publish code coverage
