@@ -2,18 +2,20 @@
 
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System;
 
 /// <summary>
 /// Simple implementation of fixed size queue that dequeues when maximum reached.
 /// </summary>
 /// <typeparam name="T">The data type.</typeparam>
-public class FixedSizedQueue<T>
+public class FixedSizedQueue<T> : IDisposable
 {
     private readonly ConcurrentQueue<T> backingQueue = new();
     private readonly object lockObject = new();
     private readonly int limit;
 
     private T? lastEntry;
+    private bool isDisposed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FixedSizedQueue{T}"/> class.
@@ -68,5 +70,29 @@ public class FixedSizedQueue<T>
     {
         this.lastEntry = default;
         this.backingQueue.Clear();
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        this.Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Dispose the states.
+    /// </summary>
+    /// <param name="disposing">Whether currently is disposing.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!this.isDisposed)
+        {
+            if (disposing)
+            {
+                this.Clear();
+            }
+
+            this.isDisposed = true;
+        }
     }
 }
