@@ -29,11 +29,16 @@ steps:
 
   - task: VSTest@2
     inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: |
+        **\*test*.dll
+        !**\*TestAdapter.dll
+        !**\obj\**
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
       codeCoverageEnabled: true
       runSettingsFile: coverage.runsettings
-      otherConsoleOptions: '/collect:"Code Coverage;Format=Cobertura"'
+      diagnosticsEnabled: true
 
   - task: PublishCodeCoverageResults@2
     displayName: Publish code coverage
