@@ -6,18 +6,19 @@ A simple key logger that logs the keystroke onto the screen for Windows.
 
 ## Roadmap
 
-- [ ] Configurable Settings
+- [x] Configurable Settings
 - [ ] Display in Systems Tray
-- [ ] Refactor
-- [ ] Unit Testing
+- [x] Refactor
+- [x] Unit Testing
 - [x] Azure Pipeline
 - [ ] Logging (Metadata only)
-- [ ] Autofac IoC
+- [x] Autofac IoC
 - [ ] Preset themes
 - [ ] Benchmarks
 
 ## Known Bugs
 
+- [ ] Memory Leak (possibly resolved, need further investigation)
 - [ ] Sometimes unable to display the active modifier keys correctly.
 - [ ] Sometimes the modifier key remains active despite the key has already been released.
 
