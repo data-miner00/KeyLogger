@@ -47,6 +47,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     public MainWindow()
     {
         this.DataContext = this;
+        this.Topmost = true;
 
         this.callback = this.HookCallback;
         this.hookId = SetHook(this.callback);
@@ -205,11 +206,6 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         var desktopWorkingArea = SystemParameters.WorkArea;
         this.Left = desktopWorkingArea.Right - this.Width;
         this.Top = desktopWorkingArea.Bottom - this.Height;
-    }
-
-    private void Window_Deactivated(object sender, EventArgs e)
-    {
-        this.Topmost = true;
     }
 
     private void OnTimedEvent(object source, ElapsedEventArgs e)

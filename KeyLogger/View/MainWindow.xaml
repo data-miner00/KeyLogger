@@ -13,7 +13,7 @@
         ResizeMode="NoResize"
         AllowsTransparency="True"
         Cursor="SizeAll"
-        Deactivated="Window_Deactivated" Background="Transparent" MouseDown="Window_MouseDown">
+        Background="Transparent" MouseDown="Window_MouseDown">
     <Border CornerRadius="20" Background="#FF060E1D" BorderThickness="1" BorderBrush="#888">
         <Grid>
             <Grid.RowDefinitions>
