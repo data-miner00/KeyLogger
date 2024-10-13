@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ using Thread = System.Threading.Thread;
 /// <summary>
 /// Interaction logic for MainWindow.xaml.
 /// </summary>
-public sealed partial class MainWindow : Window, IDisposable
+public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyChanged
 {
     private static readonly SolidColorBrush WhiteBrush = new(Colors.White);
     private static readonly SolidColorBrush GrayBrush = new(FillColor.FromRgb(136, 136, 136));
@@ -38,12 +39,15 @@ public sealed partial class MainWindow : Window, IDisposable
     private bool isCtrlPressed = false;
     private bool isAltPressed = false;
     private bool isWinPressed = false;
+    private string keyStrokeDisplay = string.Empty;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
     public MainWindow()
     {
+        this.DataContext = this;
+
         this.callback = this.HookCallback;
         this.hookId = SetHook(this.callback);
 
@@ -57,11 +61,31 @@ public sealed partial class MainWindow : Window, IDisposable
     }
 
     /// <inheritdoc/>
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    /// <summary>
+    /// Gets or sets the key stroke to be displayed on the text box.
+    /// </summary>
+    public string KeyStrokeDisplay
+    {
+        get => this.keyStrokeDisplay;
+
+        set
+        {
+            this.keyStrokeDisplay = value;
+
+            var args = new PropertyChangedEventArgs(nameof(this.KeyStrokeDisplay));
+            this.PropertyChanged?.Invoke(this, args);
+        }
+    }
+
+    /// <inheritdoc/>
     public void Dispose()
     {
         if (!this.isDisposed)
         {
             User32.UnhookWindowsHookEx(this.hookId);
+            this.queue.Dispose();
             this.isDisposed = true;
         }
     }
@@ -123,7 +147,7 @@ public sealed partial class MainWindow : Window, IDisposable
                 || !ModifierStringRepresentations.Contains(currentKeyPress))
             {
                 this.queue.Enqueue(currentKeyPress);
-                this.txtKeystroke.Text = string.Join(string.Empty, this.queue.GetAll);
+                this.KeyStrokeDisplay = string.Join(string.Empty, this.queue.GetAll);
             }
 
             this.isQueueCleared = false;
@@ -190,21 +214,6 @@ public sealed partial class MainWindow : Window, IDisposable
 
     private void OnTimedEvent(object source, ElapsedEventArgs e)
     {
-        if (this.txtKeystroke.Dispatcher.Thread == Thread.CurrentThread)
-        {
-            this.TimerLogic();
-        }
-        else
-        {
-            this.txtKeystroke.Dispatcher.Invoke(new Action(() =>
-            {
-                this.TimerLogic();
-            }));
-        }
-    }
-
-    private void TimerLogic()
-    {
         if (this.timerCountdown > 0)
         {
             this.timerCountdown -= 500;
@@ -215,7 +224,7 @@ public sealed partial class MainWindow : Window, IDisposable
             {
                 this.queue.Clear();
                 this.isQueueCleared = true;
-                this.txtKeystroke.Text = string.Empty;
+                this.KeyStrokeDisplay = string.Empty;
             }
         }
     }

@@ -42,7 +42,7 @@
                 HorizontalAlignment="Left"
                 HorizontalContentAlignment="Center"
                 TextWrapping="Wrap"
-                Text=""
+                Text="{Binding KeyStrokeDisplay, UpdateSourceTrigger=PropertyChanged}"
                 VerticalAlignment="Center"
                 Width="240"
                 Height="70"
