@@ -1,0 +1,8 @@
+﻿{
+  "DefaultSettings": {
+    "maximumKeystrokeDisplayCount": 5,
+    "timerTickInMilliseconds": 500,
+    "idleTimedOutInMilliseconds": 1000,
+    "startupDelayInMilliseconds": 1000
+  }
+}

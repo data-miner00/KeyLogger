@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using KeyLogger.Core;
 using KeyLogger.Core.Extensions;
+using KeyLogger.Option;
 
 using FillColor = System.Windows.Media.Color;
 using Keys = System.Windows.Forms.Keys;
@@ -26,12 +27,17 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private static readonly SolidColorBrush GrayBrush = new(FillColor.FromRgb(136, 136, 136));
     private static readonly List<string> ModifierStringRepresentations = ["⇧", "⌃", "⌥", "⌘"];
 
-    private readonly FixedSizedQueue<string> queue = new(5);
-    private readonly Timer idleTimer = new(TimeSpan.FromMilliseconds(500));
-    private readonly int timerMax = 1000;
     private readonly User32.LowLevelHook callback;
     private readonly IntPtr hookId = IntPtr.Zero;
 
+    #region Configurables
+    private readonly int timerMax;
+    private readonly int timerTick;
+    private readonly FixedSizedQueue<string> queue;
+    private readonly Timer idleTimer;
+    #endregion
+
+    #region States
     private int timerCountdown;
     private bool isQueueCleared = false;
     private bool isDisposed = false;
@@ -40,12 +46,21 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private bool isAltPressed = false;
     private bool isWinPressed = false;
     private string keyStrokeDisplay = string.Empty;
+    #endregion
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
-    public MainWindow()
+    /// <param name="settings">The default settings.</param>
+    public MainWindow(DefaultSettings settings)
     {
+        Guard.ThrowIfNull(settings);
+
+        this.timerMax = settings.IdleTimedOutInMilliseconds;
+        this.timerTick = settings.TimerTickInMilliseconds;
+        this.queue = new(settings.MaximumKeystrokeDisplayCount);
+        this.idleTimer = new(settings.TimerTickInMilliseconds);
+
         this.DataContext = this;
         this.Topmost = true;
 
@@ -212,7 +227,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     {
         if (this.timerCountdown > 0)
         {
-            this.timerCountdown -= 500;
+            this.timerCountdown -= this.timerTick;
         }
         else
         {
