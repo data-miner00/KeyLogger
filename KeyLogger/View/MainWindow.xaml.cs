@@ -15,7 +15,9 @@ using KeyLogger.Core.Extensions;
 using KeyLogger.Option;
 
 using FillColor = System.Windows.Media.Color;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using Keys = System.Windows.Forms.Keys;
+using ContextMenuStrip = System.Windows.Forms.ContextMenuStrip;
 using Thread = System.Threading.Thread;
 
 /// <summary>
@@ -29,6 +31,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
 
     private readonly User32.LowLevelHook callback;
     private readonly IntPtr hookId = IntPtr.Zero;
+    private readonly NotifyIcon notifyIcon;
 
     #region Configurables
     private readonly int timerMax;
@@ -70,9 +73,24 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         this.idleTimer.Elapsed += this.OnTimedEvent!;
         this.timerCountdown = this.timerMax;
 
+        var contextMenuStrip = new ContextMenuStrip();
+        contextMenuStrip.Items.Add("Minimize", null, this.OnClickToolStripMinimize!);
+        contextMenuStrip.Items.Add("About", null, this.OnClickToolStripMinimize!);
+        contextMenuStrip.Items.Add("Exit", null, this.OnClickToolStripExit!);
+
+        this.notifyIcon = new NotifyIcon
+        {
+            BalloonTipText = "The item has been minimized.",
+            Text = "KeyLogger",
+            Icon = new System.Drawing.Icon("Assets/icon.ico"),
+            Visible = true,
+            ContextMenuStrip = contextMenuStrip,
+        };
+        this.notifyIcon.Click += new EventHandler(this.OnClickNotifyIcon!);
+
         this.InitializeComponent();
 
-        Task.Delay(1000).GetAwaiter().GetResult();
+        Task.Delay(settings.StartupDelayInMilliseconds).GetAwaiter().GetResult();
         this.idleTimer.Start();
     }
 
@@ -102,6 +120,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         {
             User32.UnhookWindowsHookEx(this.hookId);
             this.queue.Dispose();
+            this.notifyIcon?.Dispose();
             this.isDisposed = true;
         }
     }
@@ -112,6 +131,23 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         using var curModule = curProcess.MainModule;
 
         return User32.SetWindowsHookEx(13, proc, User32.GetModuleHandle(curModule!.ModuleName), 0);
+    }
+
+    private void OnClickToolStripMinimize(object sender, EventArgs e)
+    {
+        this.Hide();
+        this.WindowState = WindowState.Minimized;
+    }
+
+    private void OnClickNotifyIcon(object sender, EventArgs e)
+    {
+        this.Show();
+        this.WindowState = WindowState.Normal;
+    }
+
+    private void OnClickToolStripExit(object sender, EventArgs e)
+    {
+        this.Close();
     }
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -353,6 +389,20 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         if (e.ChangedButton == MouseButton.Left)
         {
             this.DragMove();
+        }
+    }
+
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        this.Dispose();
+    }
+
+    private void Window_StateChanged(object sender, EventArgs e)
+    {
+        if (this.WindowState == WindowState.Minimized)
+        {
+            this.Hide();
+            this.notifyIcon.ShowBalloonTip(2000);
         }
     }
 }

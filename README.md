@@ -1,3 +1,5 @@
+![Build Status](https://dev.azure.com/Pkay0164/playground/_apis/build/status/data-miner00.KeyLogger?branchName=master)
+
 # KeyLogger
 
 A simple key logger that logs the keystroke onto the screen for Windows.
@@ -7,7 +9,7 @@ A simple key logger that logs the keystroke onto the screen for Windows.
 ## Roadmap
 
 - [x] Configurable Settings
-- [ ] Display in Systems Tray
+- [x] Display in Systems Tray
 - [x] Refactor
 - [x] Unit Testing
 - [x] Azure Pipeline
