@@ -49,6 +49,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private bool isAltPressed = false;
     private bool isWinPressed = false;
     private string keyStrokeDisplay = string.Empty;
+    private bool isPaused;
     #endregion
 
     /// <summary>
@@ -76,6 +77,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         var contextMenuStrip = new ContextMenuStrip();
         contextMenuStrip.Items.Add("Minimize", null, this.OnClickToolStripMinimize!);
         contextMenuStrip.Items.Add("About", null, this.OnClickToolStripMinimize!);
+        contextMenuStrip.Items.Add("Pause", null, this.OnClickToolStripPause!);
         contextMenuStrip.Items.Add("Exit", null, this.OnClickToolStripExit!);
 
         this.notifyIcon = new NotifyIcon
@@ -150,8 +152,18 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         this.Close();
     }
 
+    private void OnClickToolStripPause(object sender, EventArgs e)
+    {
+        this.isPaused = !this.isPaused;
+    }
+
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
+        if (this.isPaused)
+        {
+            return User32.CallNextHookEx(this.hookId, nCode, wParam, lParam);
+        }
+
         if (nCode >= 0 && (wParam == (IntPtr)0x0100 || wParam == (IntPtr)0x0104)) // WM_KEYDOWN message
         {
             bool capsLockActive = false;
