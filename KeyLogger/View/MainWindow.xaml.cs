@@ -38,6 +38,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private readonly int timerTick;
     private readonly FixedSizedQueue<string> queue;
     private readonly Timer idleTimer;
+    private readonly Func<HelpWindow> helpWindow;
     #endregion
 
     #region States
@@ -56,14 +57,18 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
     /// <param name="settings">The default settings.</param>
-    public MainWindow(DefaultSettings settings)
+    /// <param name="helpWindow">The help window.</param>
+    public MainWindow(DefaultSettings settings, Func<HelpWindow> helpWindow)
     {
         Guard.ThrowIfNull(settings);
+        Guard.ThrowIfNull(helpWindow);
 
         this.timerMax = settings.IdleTimedOutInMilliseconds;
         this.timerTick = settings.TimerTickInMilliseconds;
         this.queue = new(settings.MaximumKeystrokeDisplayCount);
         this.idleTimer = new(settings.TimerTickInMilliseconds);
+
+        this.helpWindow = helpWindow;
 
         this.DataContext = this;
         this.Topmost = true;
@@ -76,7 +81,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
 
         var contextMenuStrip = new ContextMenuStrip();
         contextMenuStrip.Items.Add("Minimize", null, this.OnClickToolStripMinimize!);
-        contextMenuStrip.Items.Add("About", null, this.OnClickToolStripMinimize!);
+        contextMenuStrip.Items.Add("About", null, this.OnClickToolStripHelp!);
         contextMenuStrip.Items.Add("Pause", null, this.OnClickToolStripPause!);
         contextMenuStrip.Items.Add("Exit", null, this.OnClickToolStripExit!);
 
@@ -155,6 +160,11 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private void OnClickToolStripPause(object sender, EventArgs e)
     {
         this.isPaused = !this.isPaused;
+    }
+
+    private void OnClickToolStripHelp(object sender, EventArgs e)
+    {
+        this.helpWindow().Show();
     }
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)

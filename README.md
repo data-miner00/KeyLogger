@@ -17,6 +17,7 @@ A simple key logger that logs the keystroke onto the screen for Windows.
 - [x] Autofac IoC
 - [ ] Preset themes
 - [ ] Benchmarks
+- [ ] Help window
 
 ## Known Bugs
 

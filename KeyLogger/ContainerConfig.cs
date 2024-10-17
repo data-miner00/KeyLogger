@@ -24,6 +24,8 @@ internal static class ContainerConfig
         builder.RegisterSettingsFile();
 
         builder.RegisterType<MainWindow>().SingleInstance();
+        builder.RegisterType<Lazy<HelpWindow>>();
+        builder.Register<Func<HelpWindow>>(ctx => () => new HelpWindow());
 
         return builder.Build();
     }
