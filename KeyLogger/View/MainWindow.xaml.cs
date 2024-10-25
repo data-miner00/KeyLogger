@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -18,7 +19,6 @@ using FillColor = System.Windows.Media.Color;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using Keys = System.Windows.Forms.Keys;
 using ContextMenuStrip = System.Windows.Forms.ContextMenuStrip;
-using Thread = System.Threading.Thread;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml.
@@ -50,6 +50,10 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private bool isAltPressed = false;
     private bool isWinPressed = false;
     private string keyStrokeDisplay = string.Empty;
+    private Brush shiftForegroundColor = GrayBrush;
+    private Brush ctrlForegroundColor = GrayBrush;
+    private Brush winForegroundColor = GrayBrush;
+    private Brush altForegroundColor = GrayBrush;
     private bool isPaused;
     #endregion
 
@@ -115,8 +119,63 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         {
             this.keyStrokeDisplay = value;
 
-            var args = new PropertyChangedEventArgs(nameof(this.KeyStrokeDisplay));
-            this.PropertyChanged?.Invoke(this, args);
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the shift foreground color.
+    /// </summary>
+    public Brush ShiftForegroundColor
+    {
+        get => this.shiftForegroundColor;
+
+        set
+        {
+            this.shiftForegroundColor = value;
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the ctrl foreground color.
+    /// </summary>
+    public Brush CtrlForegroundColor
+    {
+        get => this.ctrlForegroundColor;
+
+        set
+        {
+            this.ctrlForegroundColor = value;
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the windows key foreground color.
+    /// </summary>
+    public Brush WinForegroundColor
+    {
+        get => this.winForegroundColor;
+
+        set
+        {
+            this.winForegroundColor = value;
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the alt key foreground color.
+    /// </summary>
+    public Brush AltForegroundColor
+    {
+        get => this.altForegroundColor;
+
+        set
+        {
+            this.altForegroundColor = value;
+            this.OnPropertyChanged();
         }
     }
 
@@ -300,109 +359,49 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
 
     private void UpdateShiftUI()
     {
-        if (this.txtShift.Dispatcher.Thread == Thread.CurrentThread)
+        if (this.isShiftPressed)
         {
-            InvokeUpdate();
+            this.ShiftForegroundColor = WhiteBrush;
         }
         else
         {
-            this.txtShift.Dispatcher.Invoke(new Action(() =>
-            {
-                InvokeUpdate();
-            }));
-        }
-
-        void InvokeUpdate()
-        {
-            if (this.isShiftPressed)
-            {
-                this.txtShift.Foreground = WhiteBrush;
-            }
-            else
-            {
-                this.txtShift.Foreground = GrayBrush;
-            }
+            this.ShiftForegroundColor = GrayBrush;
         }
     }
 
     private void UpdateCtrlUI()
     {
-        if (this.txtCtrl.Dispatcher.Thread == Thread.CurrentThread)
+        if (this.isCtrlPressed)
         {
-            InvokeUpdate();
+            this.CtrlForegroundColor = WhiteBrush;
         }
         else
         {
-            this.txtCtrl.Dispatcher.Invoke(new Action(() =>
-            {
-                InvokeUpdate();
-            }));
-        }
-
-        void InvokeUpdate()
-        {
-            if (this.isCtrlPressed)
-            {
-                this.txtCtrl.Foreground = WhiteBrush;
-            }
-            else
-            {
-                this.txtCtrl.Foreground = GrayBrush;
-            }
+            this.CtrlForegroundColor = GrayBrush;
         }
     }
 
     private void UpdateAltUI()
     {
-        if (this.txtAlt.Dispatcher.Thread == Thread.CurrentThread)
+        if (this.isAltPressed)
         {
-            InvokeUpdate();
+            this.AltForegroundColor = WhiteBrush;
         }
         else
         {
-            this.txtAlt.Dispatcher.Invoke(new Action(() =>
-            {
-                InvokeUpdate();
-            }));
-        }
-
-        void InvokeUpdate()
-        {
-            if (this.isAltPressed)
-            {
-                this.txtAlt.Foreground = WhiteBrush;
-            }
-            else
-            {
-                this.txtAlt.Foreground = GrayBrush;
-            }
+            this.AltForegroundColor = GrayBrush;
         }
     }
 
     private void UpdateWinUI()
     {
-        if (this.txtWin.Dispatcher.Thread == Thread.CurrentThread)
+        if (this.isWinPressed)
         {
-            InvokeUpdate();
+            this.WinForegroundColor = WhiteBrush;
         }
         else
         {
-            this.txtWin.Dispatcher.Invoke(new Action(() =>
-            {
-                InvokeUpdate();
-            }));
-        }
-
-        void InvokeUpdate()
-        {
-            if (this.isWinPressed)
-            {
-                this.txtWin.Foreground = WhiteBrush;
-            }
-            else
-            {
-                this.txtWin.Foreground = GrayBrush;
-            }
+            this.WinForegroundColor = GrayBrush;
         }
     }
 
@@ -426,5 +425,11 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
             this.Hide();
             this.notifyIcon.ShowBalloonTip(2000);
         }
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        var args = new PropertyChangedEventArgs(propertyName);
+        this.PropertyChanged?.Invoke(this, args);
     }
 }
