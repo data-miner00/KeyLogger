@@ -4,5 +4,10 @@
     "timerTickInMilliseconds": 500,
     "idleTimedOutInMilliseconds": 1000,
     "startupDelayInMilliseconds": 1000
+  },
+  "Serilog": {
+    "WriteTo": [
+      { "Name": "File", "Args": { "path": "logs/log.txt", "rollingInterval": "Day" } }
+    ]
   }
 }

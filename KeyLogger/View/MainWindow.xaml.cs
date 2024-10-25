@@ -19,6 +19,7 @@ using FillColor = System.Windows.Media.Color;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using Keys = System.Windows.Forms.Keys;
 using ContextMenuStrip = System.Windows.Forms.ContextMenuStrip;
+using Serilog;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml.
@@ -39,6 +40,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private readonly FixedSizedQueue<string> queue;
     private readonly Timer idleTimer;
     private readonly Func<HelpWindow> helpWindow;
+    private readonly ILogger logger;
     #endregion
 
     #region States
@@ -62,7 +64,8 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     /// </summary>
     /// <param name="settings">The default settings.</param>
     /// <param name="helpWindow">The help window.</param>
-    public MainWindow(DefaultSettings settings, Func<HelpWindow> helpWindow)
+    /// <param name="logger">The logger.</param>
+    public MainWindow(DefaultSettings settings, Func<HelpWindow> helpWindow, ILogger logger)
     {
         Guard.ThrowIfNull(settings);
         Guard.ThrowIfNull(helpWindow);
@@ -73,7 +76,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         this.idleTimer = new(settings.TimerTickInMilliseconds);
 
         this.helpWindow = helpWindow;
-
+        this.logger = Guard.ThrowIfNull(logger);
         this.DataContext = this;
         this.Topmost = true;
 
@@ -100,6 +103,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         this.notifyIcon.Click += new EventHandler(this.OnClickNotifyIcon!);
 
         this.InitializeComponent();
+        this.logger.Information("Application started.");
 
         Task.Delay(settings.StartupDelayInMilliseconds).GetAwaiter().GetResult();
         this.idleTimer.Start();
@@ -203,22 +207,26 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     {
         this.Hide();
         this.WindowState = WindowState.Minimized;
+        this.logger.Information("Application minimized.");
     }
 
     private void OnClickNotifyIcon(object sender, EventArgs e)
     {
         this.Show();
         this.WindowState = WindowState.Normal;
+        this.logger.Information("Application maximized.");
     }
 
     private void OnClickToolStripExit(object sender, EventArgs e)
     {
+        this.logger.Information("Application shutting down.");
         Application.Current.Shutdown();
     }
 
     private void OnClickToolStripPause(object sender, EventArgs e)
     {
         this.isPaused = !this.isPaused;
+        this.logger.Information("Application paused: {IsPaused}", this.isPaused);
     }
 
     private void OnClickToolStripHelp(object sender, EventArgs e)

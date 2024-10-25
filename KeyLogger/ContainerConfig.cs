@@ -5,6 +5,7 @@ using KeyLogger.Option;
 using KeyLogger.View;
 using Microsoft.Extensions.Configuration;
 using System;
+using Serilog;
 
 /// <summary>
 /// IoC container configuration definition.
@@ -21,11 +22,10 @@ internal static class ContainerConfig
     {
         var builder = new ContainerBuilder();
 
-        builder.RegisterSettingsFile();
-
-        builder.RegisterType<MainWindow>().SingleInstance();
-        builder.RegisterType<Lazy<HelpWindow>>();
-        builder.Register<Func<HelpWindow>>(ctx => () => new HelpWindow());
+        builder
+            .RegisterSettingsFile()
+            .RegisterLogging()
+            .RegisterWindows();
 
         return builder.Build();
     }
@@ -41,6 +41,32 @@ internal static class ContainerConfig
             ?? throw new InvalidOperationException("The settings file is missing.");
 
         builder.RegisterInstance(defaultSettings);
+        builder.RegisterInstance(config);
+
+        return builder;
+    }
+
+    private static ContainerBuilder RegisterWindows(this ContainerBuilder builder)
+    {
+        builder.RegisterType<MainWindow>().SingleInstance();
+        builder.RegisterType<Lazy<HelpWindow>>();
+        builder.Register<Func<HelpWindow>>(ctx => () => new HelpWindow());
+
+        return builder;
+    }
+
+    private static ContainerBuilder RegisterLogging(this ContainerBuilder builder)
+    {
+        builder.Register(ctx =>
+        {
+            var configuration = ctx.Resolve<IConfigurationRoot>();
+
+            var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            return logger;
+        }).As<ILogger>();
 
         return builder;
     }
