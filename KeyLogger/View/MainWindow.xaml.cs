@@ -213,7 +213,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
 
     private void OnClickToolStripExit(object sender, EventArgs e)
     {
-        this.Close();
+        Application.Current.Shutdown();
     }
 
     private void OnClickToolStripPause(object sender, EventArgs e)
