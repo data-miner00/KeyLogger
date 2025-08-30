@@ -14,7 +14,7 @@
         AllowsTransparency="True"
         Cursor="SizeAll"
         Background="Transparent" MouseDown="Window_MouseDown" Closing="Window_Closing" StateChanged="Window_StateChanged">
-    <Border CornerRadius="20" Background="#FF060E1D" BorderThickness="1" BorderBrush="#888">
+    <Border d:Background="#FF060E1D" CornerRadius="20" Background="{Binding BackgroundColorHex}" BorderThickness="1" BorderBrush="#888">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="80" />

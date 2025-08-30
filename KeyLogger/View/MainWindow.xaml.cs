@@ -29,6 +29,8 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private static readonly SolidColorBrush WhiteBrush = new(Colors.White);
     private static readonly SolidColorBrush GrayBrush = new(FillColor.FromRgb(136, 136, 136));
     private static readonly List<string> ModifierStringRepresentations = ["⇧", "⌃", "⌥", "⌘"];
+    private static readonly string ActiveBackgroundColorHex = "#FF060E1D";
+    private static readonly string PausedBackgroundColorHex = "#AAAAAA";
 
     private readonly User32.LowLevelHook callback;
     private readonly IntPtr hookId = IntPtr.Zero;
@@ -56,6 +58,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private Brush ctrlForegroundColor = GrayBrush;
     private Brush winForegroundColor = GrayBrush;
     private Brush altForegroundColor = GrayBrush;
+    private string backgroundColorHex = ActiveBackgroundColorHex;
     private bool isPaused;
     #endregion
 
@@ -113,6 +116,20 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
+    /// Gets or sets the background color of the main window.
+    /// </summary>
+    public string BackgroundColorHex
+    {
+        get => this.backgroundColorHex;
+
+        set
+        {
+            this.backgroundColorHex = value;
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the key stroke to be displayed on the text box.
     /// </summary>
     public string KeyStrokeDisplay
@@ -122,7 +139,6 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         set
         {
             this.keyStrokeDisplay = value;
-
             this.OnPropertyChanged();
         }
     }
@@ -236,6 +252,10 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private void TogglePause()
     {
         this.isPaused = !this.isPaused;
+        this.BackgroundColorHex = this.isPaused
+            ? PausedBackgroundColorHex
+            : ActiveBackgroundColorHex;
+
         this.logger.Information("Application paused: {IsPaused}", this.isPaused);
     }
 
