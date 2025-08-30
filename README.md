@@ -6,6 +6,12 @@ A simple key logger that logs the keystroke onto the screen for Windows.
 
 ![Application demo](demo.gif)
 
+## Usage
+
+1. Drag to move around the window.
+1. App menu can be found in the system tray.
+1. Pause/Resume logging by clicking in the system tray menu or CTRL+P.
+
 ## Roadmap
 
 - [x] Configurable Settings
@@ -13,17 +19,19 @@ A simple key logger that logs the keystroke onto the screen for Windows.
 - [x] Refactor
 - [x] Unit Testing
 - [x] Azure Pipeline
-- [ ] Logging (Metadata only)
+- [x] Logging (Metadata only)
 - [x] Autofac IoC
 - [ ] Preset themes
 - [ ] Benchmarks
 - [ ] Help window
+- [ ] Display mouse clicks
+- [ ] Display caps lock status
+- [ ] Display num lock status
 
 ## Known Bugs
 
-- [ ] Memory Leak (possibly resolved, need further investigation)
-- [ ] Sometimes unable to display the active modifier keys correctly.
-- [ ] Sometimes the modifier key remains active despite the key has already been released.
+- [x] Memory Leak (possibly resolved, need further investigation)
+- [ ] The modifier key remains active until next keystroke despite the key has already been released.
 
 ## References
 
@@ -38,3 +46,4 @@ Appreciate these people and resources that make this project possible.
 - [Make WPF window draggable, no matter what element is clicked](https://stackoverflow.com/questions/7417739/make-wpf-window-draggable-no-matter-what-element-is-clicked)
 - [How to remove white strip on top of WPF window with WindowStyle=None?](https://stackoverflow.com/questions/36631165/how-to-remove-white-strip-on-top-of-wpf-window-with-windowstyle-none)
 - [Moving MainWindow.xaml](https://stackoverflow.com/questions/25472765/moving-mainwindow-xaml)
+- [Keyboard Icon](https://www.flaticon.com/free-icons/typing)
