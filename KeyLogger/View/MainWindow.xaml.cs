@@ -35,6 +35,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
     private readonly User32.LowLevelHook callback;
     private readonly IntPtr hookId = IntPtr.Zero;
     private readonly NotifyIcon notifyIcon;
+    private readonly ContextMenuStrip contextMenuStrip;
 
     #region Configurables
     private readonly int timerMax;
@@ -89,11 +90,11 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         this.idleTimer.Elapsed += this.OnTimedEvent!;
         this.timerCountdown = this.timerMax;
 
-        var contextMenuStrip = new ContextMenuStrip();
-        contextMenuStrip.Items.Add("Minimize", null, this.OnClickToolStripMinimize!);
-        contextMenuStrip.Items.Add("About", null, this.OnClickToolStripHelp!);
-        contextMenuStrip.Items.Add("Pause", null, this.OnClickToolStripPause!);
-        contextMenuStrip.Items.Add("Exit", null, this.OnClickToolStripExit!);
+        this.contextMenuStrip = new ContextMenuStrip();
+        this.contextMenuStrip.Items.Add("Minimize", null, this.OnClickToolStripMinimize!);
+        this.contextMenuStrip.Items.Add("About", null, this.OnClickToolStripHelp!);
+        this.contextMenuStrip.Items.Add("Pause", null, this.OnClickToolStripPause!);
+        this.contextMenuStrip.Items.Add("Exit", null, this.OnClickToolStripExit!);
 
         this.notifyIcon = new NotifyIcon
         {
@@ -101,7 +102,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
             Text = "KeyLogger",
             Icon = new System.Drawing.Icon("Assets/icon.ico"),
             Visible = true,
-            ContextMenuStrip = contextMenuStrip,
+            ContextMenuStrip = this.contextMenuStrip,
         };
         this.notifyIcon.Click += new EventHandler(this.OnClickNotifyIcon!);
 
@@ -255,6 +256,9 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         this.BackgroundColorHex = this.isPaused
             ? PausedBackgroundColorHex
             : ActiveBackgroundColorHex;
+        this.contextMenuStrip.Items[2].Text = this.isPaused
+            ? "Resume"
+            : "Pause";
 
         this.logger.Information("Application paused: {IsPaused}", this.isPaused);
     }
