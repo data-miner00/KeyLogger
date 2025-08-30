@@ -1,25 +1,25 @@
 ﻿namespace KeyLogger.View;
 
+using KeyLogger.Core;
+using KeyLogger.Core.Extensions;
+using KeyLogger.Option;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using KeyLogger.Core;
-using KeyLogger.Core.Extensions;
-using KeyLogger.Option;
 
-using FillColor = System.Windows.Media.Color;
-using NotifyIcon = System.Windows.Forms.NotifyIcon;
-using Keys = System.Windows.Forms.Keys;
 using ContextMenuStrip = System.Windows.Forms.ContextMenuStrip;
-using Serilog;
+using FillColor = System.Windows.Media.Color;
+using Keys = System.Windows.Forms.Keys;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml.
@@ -225,8 +225,7 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
 
     private void OnClickToolStripPause(object sender, EventArgs e)
     {
-        this.isPaused = !this.isPaused;
-        this.logger.Information("Application paused: {IsPaused}", this.isPaused);
+        this.TogglePause();
     }
 
     private void OnClickToolStripHelp(object sender, EventArgs e)
@@ -234,13 +233,14 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
         this.helpWindow().Show();
     }
 
+    private void TogglePause()
+    {
+        this.isPaused = !this.isPaused;
+        this.logger.Information("Application paused: {IsPaused}", this.isPaused);
+    }
+
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (this.isPaused)
-        {
-            return User32.CallNextHookEx(this.hookId, nCode, wParam, lParam);
-        }
-
         if (nCode >= 0 && (wParam == (IntPtr)0x0100 || wParam == (IntPtr)0x0104)) // WM_KEYDOWN message
         {
             bool capsLockActive = false;
@@ -249,28 +249,44 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
             if (shiftKeyState.FirstBitIsTurnedOn())
             {
                 this.isShiftPressed = true;
-                this.UpdateShiftUI();
+
+                if (!this.isPaused)
+                {
+                    this.UpdateShiftUI();
+                }
             }
 
             var ctrlKeyState = User32.GetAsyncKeyState(Keys.ControlKey);
             if (ctrlKeyState.FirstBitIsTurnedOn())
             {
                 this.isCtrlPressed = true;
-                this.UpdateCtrlUI();
+
+                if (!this.isPaused)
+                {
+                    this.UpdateCtrlUI();
+                }
             }
 
             var altKeyState = User32.GetAsyncKeyState(Keys.LMenu);
             if (altKeyState.FirstBitIsTurnedOn())
             {
                 this.isAltPressed = true;
-                this.UpdateAltUI();
+
+                if (!this.isPaused)
+                {
+                    this.UpdateAltUI();
+                }
             }
 
             var winKeyState = User32.GetAsyncKeyState(Keys.LWin);
             if (winKeyState.FirstBitIsTurnedOn())
             {
                 this.isWinPressed = true;
-                this.UpdateWinUI();
+
+                if (!this.isPaused)
+                {
+                    this.UpdateWinUI();
+                }
             }
 
             // We need to use GetKeyState to verify if CapsLock is "TOGGLED"
@@ -281,6 +297,17 @@ public sealed partial class MainWindow : Window, IDisposable, INotifyPropertyCha
             }
 
             int vkCode = Marshal.ReadInt32(lParam);
+
+            if (this.isCtrlPressed && (Keys)vkCode == Keys.P)
+            {
+                this.TogglePause();
+                return User32.CallNextHookEx(this.hookId, nCode, wParam, lParam);
+            }
+
+            if (this.isPaused)
+            {
+                return User32.CallNextHookEx(this.hookId, nCode, wParam, lParam);
+            }
 
             var currentKeyPress = new KeyPress((Keys)vkCode, this.isShiftPressed, capsLockActive).ToString();
 
