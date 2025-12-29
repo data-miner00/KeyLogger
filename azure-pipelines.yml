@@ -13,6 +13,8 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  buildArtifactStaging: '$(Build.ArtifactStagingDirectory)'
+  projectFile: 'KeyLogger/KeyLogger.csproj'
 
 steps:
   - task: NuGetToolInstaller@1
@@ -40,3 +42,26 @@ steps:
     displayName: Publish code coverage
     inputs:
       summaryFileLocation: '$(Agent.TempDirectory)/TestResults/*.trx'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Publish KeyLogger WPF Application'
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: '$(projectFile)'
+      arguments: '--configuration $(buildConfiguration) --output $(buildArtifactStaging)\publish_output'
+
+  - task: CmdLine@2
+    inputs:
+      script: |
+        echo  'Default Working Directory: $(System.DefaultWorkingDirectory)'
+        echo  'Pipeline Workspace: $(Pipeline.Workspace)'
+        dir
+    displayName: Show working directory
+
+  - task: CmdLine@2
+    inputs:
+      WorkingDirectory: KeyLogger
+      script: |
+        dir
+    displayName: Show working directory inside KeyLogger
