@@ -42,7 +42,7 @@ steps:
     inputs:
       command: 'test'
       projects: '$(solution)'
-      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" --results-directory $(Agent.TempDirectory)/TestResults'
+      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
 
   - task: PublishCodeCoverageResults@2
     displayName: Publish code coverage
