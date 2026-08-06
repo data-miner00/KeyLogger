@@ -32,7 +32,7 @@ public sealed class GuardTests
     [Theory]
     [InlineData("")]
     [InlineData(null)]
-    public void ThrowIfNullOrWhitespace_NullOrEmptyString_Throws(string param)
+    public void ThrowIfNullOrWhitespace_NullOrEmptyString_Throws(string? param)
     {
         Assert.Throws<ArgumentException>(() => Guard.ThrowIfNullOrWhitespace(param));
     }

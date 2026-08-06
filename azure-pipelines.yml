@@ -37,19 +37,17 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-  - task: VSTest@3
+  - task: DotNetCoreCLI@2
+    displayName: 'Run tests with code coverage'
     inputs:
-      platform: '$(buildPlatform)'
-      configuration: '$(buildConfiguration)'
-      codeCoverageEnabled: true
-      runSettingsFile: coverage.runsettings
-      diagnosticsEnabled: true
-      otherConsoleOptions: '/collect:"XPlat Code Coverage"'
+      command: 'test'
+      projects: '$(solution)'
+      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
 
   - task: PublishCodeCoverageResults@2
     displayName: Publish code coverage
     inputs:
-      summaryFileLocation: '$(Agent.TempDirectory)/TestResults/*.trx'
+      summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
   - task: DotNetCoreCLI@2
     displayName: 'Publish KeyLogger WPF Application'
