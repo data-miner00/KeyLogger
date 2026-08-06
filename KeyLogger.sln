@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.10.35122.118
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11911.148 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyLogger", "KeyLogger\KeyLogger.csproj", "{AC47869A-604F-4C4E-8799-41E0B1A092D5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyLogger.Console", "KeyLogger.Console\KeyLogger.Console.csproj", "{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5CD7DAD-2742-40C5-9DA0-1193F34EE10B}"
 	ProjectSection(SolutionItems) = preProject
@@ -34,10 +32,6 @@ Global
 		{AC47869A-604F-4C4E-8799-41E0B1A092D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC47869A-604F-4C4E-8799-41E0B1A092D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC47869A-604F-4C4E-8799-41E0B1A092D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2149DC54-6DA5-4AB6-B617-14CE8DA918F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67BEB4E4-1DD2-419A-897F-242B9C687BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67BEB4E4-1DD2-419A-897F-242B9C687BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67BEB4E4-1DD2-419A-897F-242B9C687BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
