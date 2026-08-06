@@ -1,16 +1,13 @@
 <Project>
-  <ItemGroup>
-    <PackageReference 
-      Include="StyleCop.Analyzers" 
-      Version="1.2.0-beta.354"
-      PrivateAssets="all" 
-      Condition="$(MSBuildProjectExtension) == '.csproj'" 
-    />
-    <PackageReference
-      Include="SonarAnalyzer.CSharp"
-      Version="9.25.0.90414"
-      PrivateAssets="all"
-      Condition="$(MSBuildProjectExtension) == '.csproj'"
-    />
-  </ItemGroup>
+  <PropertyGroup>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <PublishForAWSLambda>false</PublishForAWSLambda>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <VersionPrefix Condition="'$(SEMANTICVERSION)' != ''">$(SEMANTICVERSION)</VersionPrefix>
+    <VersionPrefix Condition="'$(SEMANTICVERSION)' == ''">1.0.0</VersionPrefix>
+    <VersionSuffix>build$([MSBuild]::ValueOrDefault('$(BUILD_BUILDNUMBER)', '0'))</VersionSuffix>
+  </PropertyGroup>
 </Project>
