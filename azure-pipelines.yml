@@ -37,12 +37,12 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-  - task: VSTest@3
+  - task: DotNetCoreCLI@2
+    displayName: 'Run tests with code coverage'
     inputs:
-      platform: '$(buildPlatform)'
-      configuration: '$(buildConfiguration)'
-      diagnosticsEnabled: true
-      otherConsoleOptions: '/collect:"XPlat Code Coverage"'
+      command: 'test'
+      projects: '$(solution)'
+      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" --results-directory $(Agent.TempDirectory)/TestResults'
 
   - task: PublishCodeCoverageResults@2
     displayName: Publish code coverage
